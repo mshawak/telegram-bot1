@@ -4,7 +4,7 @@ from telegram.ext import (
     ContextTypes, filters
 )
 
-# File names without emojis
+# File names mapped to file paths
 file_lookup = {
     "words in context": "files/words in context.pdf",
     "text structure and purpose": "files/Text Structure And Purpose.pdf",
@@ -42,9 +42,46 @@ file_lookup = {
 
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Welcome!\nType the file name (e.g., 'test 15') to receive the PDF.")
+    message = (
+        "👋 Welcome!\n"
+        "Type the file name exactly to receive its PDF.\n\n"
+        "📄 *This is all the available things (copy and paste into the chat box):*\n"
+        "words in context\n"
+        "text structure and purpose\n"
+        "cross text connection answers\n"
+        "form, structure, sense annotation\n"
+        "central ideas and details\n"
+        "command of evidence textual\n"
+        "command of evidence quantitative\n"
+        "command of evidence quantitative practice\n"
+        "inference\n"
+        "inference answers\n"
+        "punctuation\n"
+        "punctuation (no answer)\n"
+        "subject-verb agreement\n"
+        "verb tenses\n"
+        "finite and non finite\n"
+        "pronouns\n"
+        "modifiers\n"
+        "run ons & fragments\n"
+        "transitions\n"
+        "transition practice\n"
+        "transition practice & explanation\n"
+        "rhetorical synthesis practice\n"
+        "rhetorical synthesis practice & explanation\n"
+        "test 15\n"
+        "test 15 marked\n"
+        "test 16\n"
+        "test 16 marked\n"
+        "test 17\n"
+        "test 17 marked\n"
+        "test 18\n"
+        "test 18 marked\n"
+        "vocabulary (the eloquent ones)"
+    )
+    await update.message.reply_text(message, parse_mode='Markdown')
 
-# File request handler
+# Handle messages with file names
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip().lower()
 
@@ -67,4 +104,5 @@ if __name__ == '__main__':
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
+    print("🤖 Bot is running...")
     app.run_polling()
